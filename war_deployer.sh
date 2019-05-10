@@ -5,7 +5,7 @@
 # 
 # This bash script is used to deploy tomcat web app safely.
 # It creates neccesary database and app backups.
-# After deploying it checks for the status of the deployment and if necessary it rollbacks to the previous version
+# After deploying, it checks for the status of the deployment and if necessary it rollbacks to the previous version
 #
 # # # # # # # # #  # # # # # # # # # # # # # # # # # # # #  # # # # # # # # # # # # # # # # # # # #  # # # # # # # # 
 
@@ -20,7 +20,7 @@ DEPLOY_LOG="$LOG_DIR/deploy-$(date +"%d-%m-%Y").log"
 #Location of tomcat root
 WEBROOT="/opt/tomcat8"
 
-#This is without extension. eg: app.war should be written app
+#This is without extension. eg: app.war should be written as app
 WAR_NAME='app'
 
 #APP_URL is used to check the status of the website. 
@@ -131,7 +131,7 @@ stopTomcat() {
 checkExitStatus (){
 		if [ "$1" != 0 ]; 
 		then
-			ERROR_MESSAGE="ERROR! failed to $2 \n\n See the log file is the previous war is deployed."
+			ERROR_MESSAGE="ERROR! failed to $2 \n\n See the log file to check if the previous war is deployed."
 			#if $3 is 1 it starts tomcat before it terminates
 			if [ "$3" -eq 1 ]; 
 			then
@@ -296,10 +296,10 @@ logMessage "start time "$(date '+%Y-%m-%d %H:%M:%S')
 					checkDeployStatus
 
 					if [ "$?" -eq 0 ]; then
-						terminateTask  "web app REVERTED to previous war successfuly" "$date - Auto deploy failed on hallelujah server. $date web app reverted to previous war successfully."
+						terminateTask  "web app REVERTED to previous war successfuly" "$date - Auto deploy failed on $ORGANIZATION server. $date web app reverted to previous war successfully."
 						
 					else
-						terminateTask "$DEPLOY_ERROR" "auto deploy at $date failed on hallelujah server. $date web app can not be reverted to previous war. Start tomcat manually!"
+						terminateTask "$DEPLOY_ERROR" "auto deploy at $date failed on $ORGANIZATION server. $date web app can not be reverted to previous war. Start tomcat manually!"
 						
 					fi
 				fi
